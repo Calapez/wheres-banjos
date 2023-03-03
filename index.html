@@ -1,1 +1,84 @@
-<h1>Teste</h1>
+<script>
+    class Stay {
+        constructor(startDateTime, endDateTime, x, y, name) {
+            this.startDateTime = startDateTime;
+            this.endDateTime = endDateTime;
+            this.x = x;
+            this.y = y;
+            this.name = name;
+        }
+        
+    }
+
+    var stays = [
+        new Stay(
+            new Date(2023, 2, 3, 7),
+            new Date(2023, 2, 4, 7, 59),
+            207, 
+            815,
+            "Valencia"),
+        new Stay(
+            new Date(2023, 2, 4, 8),
+            new Date(2023, 2, 5, 7, 59),
+            465, 
+            555,
+            "Alemanha"),
+        new Stay(
+            new Date(2023, 2, 5, 8),
+            new Date(2023, 2, 6, 7, 59),
+            463, 
+            412,
+            "Dinamarca"),
+    ]
+
+    function setBanjos() {
+        let banjosElement = document.getElementById('banjosImg');
+        
+        var currentStay = null;
+        let todayDate = new Date();
+        stays.forEach(stay => {
+            if (todayDate >= stay.startDateTime && todayDate <= stay.endDateTime) {
+                currentStay = stay;
+                return;
+            }
+        });
+
+        if (currentStay != null) {
+            banjosElement.style.visibility = "visible"
+            banjosElement.style.top = (currentStay.y - (banjosElement.height / 2)) + 'px';
+            banjosElement.style.left = (currentStay.x - (banjosElement.width / 2)) + 'px';
+        } else {
+            banjosElement.style.visibility = "hidden"
+        }
+       
+    } 
+
+    document.addEventListener('DOMContentLoaded', function() {
+        setBanjos();
+    }, false);
+
+    window.onresize = setBanjos;
+</script>
+
+<style>
+    .map {
+        position: absolute;
+        z-index: 2;
+        top: 0px;
+        left: 0px;
+    }
+
+    .banjos {
+        position: absolute;
+        z-index: 3;
+        width: 3%;
+    }
+</style>
+
+<h1>Onde está o Banjos hoje?</h1>
+
+<div>
+    <img id="banjosImg" class="banjos" src="banjos2.png"> 
+    <img class="map" src="map.jpg">    
+</div>
+
